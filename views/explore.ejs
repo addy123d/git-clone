@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
+    <title>Explore</title>
+</head>
+<style>
+    html,
+    body {
+        font-family: 'Inconsolata', monospace;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 1%;
+    }
+
+    .card {
+        margin: 3%;
+        background: #f1f3f8;
+        padding: 3em;
+    }
+
+    img {
+        height: 350px;
+        width: 350px;
+        border-radius: 100%;
+    }
+
+    button {
+        cursor: pointer;
+        padding: 1em;
+        outline: none;
+        border: none;
+        background: rgb(46, 120, 218);
+        color: #f5f5f5;
+        text-shadow: 1px 1px 2px #1c1d1e;
+        border-radius: 20px;
+    }
+
+    .title h2 {
+        font-size: 2rem;
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: flex-end;
+        justify-content: flex-end;
+        margin-right: 5%;
+    }
+
+    .search-bar>div {
+        margin: 2%;
+    }
+</style>
+
+<body>
+    <div class="title">
+        <h2>Explore</h2>
+    </div>
+
+
+    <div class="search-bar">
+        <div class="input">
+            <input type="text" name="username" id="search-box" placeholder="Search User..." autocomplete="off">
+        </div>
+
+        <div class="search-btn">
+            <button id="search">Search</button>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <div class="input">
+            <input type="text" name="repository" id="search-repo" placeholder="Search Repo..." autocomplete="off">
+        </div>
+
+        <div class="search-btn">
+            <button id="searchRepo">Search</button>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <%for(let i=0; i < repos.length; i++){%>
+            <div class="card">
+                <div class="dp">
+                    <img src="<%=repos[i].owner.avatar_url%>" alt="image">
+                </div>
+                <div class="username">
+                    <h2>
+                        <%=repos[i].owner.login%>
+                    </h2>
+                </div>
+                <div class="reponame">
+                    <p><strong>Repository</strong> : <%=repos[i].full_name%>
+                    </p>
+                </div>
+                <div class="btn">
+                    <a href="/repositories?username=<%=repos[i].owner.login%>"><button>View
+                            👁</button></a>
+                </div>
+            </div>
+
+            <%}%>
+    </div>
+</body>
+<script>
+    const searchBtn = document.querySelector("#search");
+    const searchBox = document.querySelector("#search-box");
+
+    const search_Repo_Btn = document.querySelector("#searchRepo");
+    const search_Repo_Box = document.querySelector("#search-repo");
+
+    // Search user
+    searchBtn.addEventListener("click", function () {
+        location.href = `/repositories?username=${searchBox.value}`;
+    })
+
+
+    // Search Repository
+    search_Repo_Btn.addEventListener("click", function () {
+        location.href = `/explore?repository=${search_Repo_Box.value}`;
+    })
+</script>
+
+</html>

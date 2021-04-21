@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Antonio:wght@100&family=Josefin+Sans:wght@300&family=Poppins:wght@200&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.loginPage {
+    background: #f0f0f0;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.container {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 6%;
+    left: 8%;
+    transform: translate(-50%, -50%);
+}
+
+.logo h2 {
+    font-size: 2.3rem;
+    color: #222;
+    font-family: 'Antonio', sans-serif;
+}
+
+.logo span {
+    color: rgb(25, 48, 70);
+    font-size: 2.5rem;
+}
+
+.form {
+    background: #f1f3f8;
+    padding: 2em 3em 2em 3em;
+    margin: 2%;
+}
+
+.form form>div {
+    margin-bottom: 10%;
+}
+
+/* Common CSS for all input tags ! */
+input {
+    padding: 1em;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: inset 11px 11px 22px #e6e6e6,
+        inset -11px -11px 22px #ffffff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input[type="password"] {
+    padding-right: 2em;
+}
+
+/* Button */
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button button {
+    padding: .7em 1em .7em 1em;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background: rgb(25, 48, 70);
+    color: #ffffff;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    font-size: .8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px #000000;
+    transition: .3s;
+}
+
+.button button:hover {
+    background: rgb(72, 77, 82);
+}
+
+/* Icon settling */
+.password {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.password .icon {
+    position: absolute;
+    top: 28%;
+    right: -2%;
+    cursor: pointer;
+    background: #f1f3f8;
+}
+
+/* Title */
+.container .title {
+    margin-bottom: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title h2 {
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+    color: #2d2d2e;
+}
+
+/* Eyes */
+#eyeclose {
+    display: none;
+    transition: .3s;
+}
+
+#eyeclose.active {
+    display: block;
+}
+
+#eyeopen.active {
+    display: none;
+    transition: .3s;
+}

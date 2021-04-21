@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
+    <title>
+        <%= reponame %>
+    </title>
+</head>
+<style>
+    html,
+    body {
+        font-family: 'Inconsolata', monospace;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 1%;
+    }
+
+    .card {
+        margin: 3%;
+        background: #f1f3f8;
+        padding: 3em;
+    }
+
+    img {
+        height: 350px;
+        width: 350px;
+        border-radius: 100%;
+    }
+
+    button {
+        cursor: pointer;
+        padding: 1em;
+        outline: none;
+        border: none;
+        background: rgb(46, 120, 218);
+        color: #f5f5f5;
+        text-shadow: 1px 1px 2px #1c1d1e;
+        border-radius: 20px;
+    }
+
+    .title h2 {
+        font-size: 2rem;
+    }
+</style>
+
+<body>
+    <div class="title">
+        <h2>
+            <%= user %>
+        </h2>
+    </div>
+
+    <div class="settings">
+        <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button>Settings</button></a>
+    </div>
+
+
+    <div class="container">
+
+        <%for(let i=0; i < files.length; i++){%>
+            <div class="card">
+                <div class="reponame">
+                    <p><strong>File - <%= i+1 %> </strong> : <%=files[i].name%>
+                    </p>
+                    <p><strong>Size</strong> : <span>
+                            <strong>
+                                <%=files[i].size%>
+                            </strong> bytes
+                        </span></p>
+                </div>
+                <div class="btn">
+                    <a href="<%=files[i].download_url%>"><button>View 👁‍🗨</button></a>
+                    <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button>Edit
+                            ✏</button></a>
+                </div>
+            </div>
+
+            <%}%>
+    </div>
+
+    <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button>Download ZIP</button></a>
+    <input type="text" value="https://github.com/<%=user%>/<%=reponame%>.git">
+</body>
+
+</html>

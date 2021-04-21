@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <base href="/">
+
+    <!-- Link awesome CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Font CDN -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+
+    <title>Login</title>
+</head>
+
+<body>
+    <section class="loginPage">
+        <div class="logo">
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+        </div>
+        <div class="container">
+            <div class="title">
+                <h2>Login <i class="fa fa-sign-in" aria-hidden="true"></i></h2>
+            </div>
+
+            <div class="form">
+                <form action="/loginDetails" method="POST">
+                    <div class="username">
+                        <input type="text" name="username" placeholder="Username" autocomplete="off">
+                    </div>
+                    <div class="password">
+                        <input type="password" name="password" id="passwordField" placeholder="Password">
+                        <div class="icon">
+                            <i class="fa fa-eye" id="eyeopen" aria-hidden="true"></i>
+                            <i class="fa fa-eye-slash" id="eyeclose" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="button">
+                        <button>Sign in</button>
+                    </div>
+                </form>
+
+                <div class="button">
+                    <a href="/register"><button><i class="fa fa-user-plus" aria-hidden="true"></i></button></a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    const passwordShow = document.querySelector("#eyeopen"),
+        passwordHide = document.querySelector("#eyeclose");
+
+    const passwordField = document.querySelector("#passwordField");
+
+
+    passwordShow.addEventListener("click", () => {
+        passwordShow.classList.toggle("active");
+        passwordHide.classList.toggle("active");
+
+        // Change attribute of password field !
+        passwordField.setAttribute("type", "text");
+    });
+
+    passwordHide.addEventListener("click", () => {
+        passwordShow.classList.toggle("active");
+        passwordHide.classList.toggle("active");
+
+        // Change attribute of password field !
+        passwordField.setAttribute("type", "password");
+    });
+</script>
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
+    <title>Repositories</title>
+</head>
+<style>
+    html,
+    body {
+        font-family: 'Inconsolata', monospace;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 1%;
+    }
+
+    .card {
+        margin: 3%;
+        background: #f1f3f8;
+        padding: 3em;
+    }
+
+    img {
+        height: 350px;
+        width: 350px;
+        border-radius: 100%;
+    }
+
+    button {
+        cursor: pointer;
+        padding: 1em;
+        outline: none;
+        border: none;
+        background: rgb(46, 120, 218);
+        color: #f5f5f5;
+        text-shadow: 1px 1px 2px #1c1d1e;
+        border-radius: 20px;
+    }
+
+    .title h2 {
+        font-size: 2rem;
+    }
+</style>
+
+<body>
+    <div class="title">
+        <h2>
+            <%= user %>
+        </h2>
+    </div>
+    <div class="container">
+
+        <%for(let i=0; i < repos.length; i++){%>
+            <div class="card">
+                <div class="reponame">
+                    <p><strong>Repository</strong> : <%=repos[i].name%>
+                    </p>
+                </div>
+                <div class="btn">
+                    <!-- <a
+                        href="https://api.github.com/repos/<%=user%>/<%=repos[i].name%>/contents"><button>Open</button></a> -->
+                    <a
+                        href="/repocontent?username=<%=user%>&reponame=<%=repos[i].name%>&description=<%=repos[i].description%>"><button>Open</button></a>
+                </div>
+            </div>
+
+            <%}%>
+    </div>
+</body>
+
+</html>

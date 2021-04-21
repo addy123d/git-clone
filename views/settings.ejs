@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+</head>
+
+<body>
+    <h1>Repository Settings</h1>
+    <form action="/settingDetails" method="POST">
+        <input type="text" name="reponame" value="<%=name%>" readonly style="opacity: 0;">
+        <input type="text" name="rename" placeholder="Rename" value="<%=name%>" autocomplete="off">
+        <input type="text" name="redesc" placeholder="Repository Description" value="<%=desc%>" autocomplete="off">
+        <div>
+            <input type="radio" name="visible" id="visible" value="true">
+            <label for="visible">Change Visibility</label>
+        </div>
+        <button>Submit</button>
+    </form>
+
+    <a href="/deleterepo?reponame=<%=name%>"><button>Delete repository</button></a>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Upload</title>
+</head>
+
+<body>
+    <h2>Upload File</h2>
+    <form action="/filedetails" method="POST">
+        <select name="reponame">
+            <option>Select</option>
+            <%for(var i=0; i < names.length; i++){%>
+                <option>
+                    <%=names[i]%>
+                </option>
+                <%}%>
+        </select>
+        <input type="text" name="filename" placeholder="Choose File name" autocomplete="off">
+        <textarea name="filecontent" placeholder="Add File Content"></textarea>
+        <button>Upload</button>
+    </form>
+</body>
+
+</html>
