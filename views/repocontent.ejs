@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -91,5 +91,313 @@
     <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button>Download ZIP</button></a>
     <input type="text" value="https://github.com/<%=user%>/<%=reponame%>.git">
 </body>
+
+</html> -->
+<!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link awesome CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins&family=Josefin+Sans&family=Antonio&display=swap"
+        rel="stylesheet">
+
+    <title>Repository Content</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        background: #f0f0f0;
+    }
+
+    .explorePage {
+        background: #f0f0f0;
+        background-size: cover;
+        min-height: 100vh;
+        transition: all .3s;
+    }
+
+    .explorePage.active {
+        filter: blur(10px);
+        pointer-events: none;
+    }
+
+
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 20px;
+        align-items: stretch;
+        margin: 3%;
+    }
+
+    .grid>article {
+        border: 1px solid #ccc;
+        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+    }
+
+    .grid>article img {
+        max-width: 100%;
+    }
+
+    .text {
+        padding: 0 20px 20px;
+    }
+
+    .text>a button {
+        background: rgb(25, 48, 70);
+        color: #ffffff;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #000000;
+        transition: .3s;
+        border: 0;
+        padding: 10px;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .text>a button:hover {
+        background: rgb(72, 77, 82);
+    }
+
+    .text>a .edit-btn {
+        margin-top: 3%;
+    }
+
+    /* LOGO */
+    .logo {
+        margin: 2%;
+    }
+
+    .logo h2 {
+        font-size: 2.3rem;
+        color: #222;
+        font-family: 'Antonio', sans-serif;
+        user-select: none;
+    }
+
+    .logo span {
+        color: rgb(25, 48, 70);
+        font-size: 2.5rem;
+    }
+
+    /* Hamburger */
+    .options {
+        position: fixed;
+        top: 5%;
+        right: 10%;
+    }
+
+    .options .option-icon {
+        background: #ffffff;
+        padding: .5em;
+        border-radius: 10px;
+        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    .options .option-icon i {
+        font-size: 2rem;
+    }
+
+    /* Buttons */
+    .btncontainer {
+        position: fixed;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .3s;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .btncontainer.active {
+        opacity: 1;
+        pointer-events: visible;
+    }
+
+    .btnform {
+        margin: 7%;
+        background: #ffffff;
+        padding: 1em 2em 1em 2em;
+        border-radius: 4px;
+    }
+
+    .email,
+    .password,
+    .plan,
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10%;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+        padding: 1em 1.5em 1em 1.5em;
+        border: none;
+        background: rgb(238, 235, 235);
+        border-radius: 5px;
+        outline: none;
+        font-family: 'Josefin Sans', sans-serif;
+    }
+
+    select {
+        padding: 1em 1em 1em 1em;
+        outline: none;
+        border: .5px dashed gray;
+        font-family: 'Josefin Sans', sans-serif;
+    }
+
+    button {
+        padding: .7em 1em .7em 1em;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background: rgb(25, 48, 70);
+        color: #ffffff;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        font-size: .8rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #000000;
+    }
+
+    button:hover {
+        transition: all .3s;
+        background: rgb(77, 77, 77)
+    }
+
+    .form h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 1.4rem;
+        margin: 2%;
+        border-bottom: .5px dashed #1c1d1e;
+        line-height: 50px;
+    }
+
+
+    /* Text */
+    .text h3 {
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+        margin: 3%;
+    }
+
+    .text p {
+        font-family: 'Poppins', sans-serif;
+        text-align: center;
+        margin: 4%;
+    }
+
+    @media (max-width: 730px) {
+        .grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    @media (max-width: 530px) {
+        .grid {
+            grid-template-columns: 100%;
+        }
+    }
+</style>
+
+<body>
+    <section class="explorePage">
+
+        <div class="logo">
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+        </div>
+
+        <div class="grid">
+
+            <%for(let i=0; i < files.length; i++){%>
+
+                <article>
+                    <div class="text">
+                        <h3><i class="fa fa-file-code-o" aria-hidden="true"></i>
+                            <%=files[i].name%>
+                        </h3>
+                        <p><strong>Size :</strong>
+                            <%=files[i].size%> bytes
+                        </p>
+                        <a href="<%=files[i].download_url%>"><button>View <i class="fa fa-eye"
+                                    aria-hidden="true"></i></button></a>
+                        <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button
+                                class="edit-btn">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                    </div>
+                </article>
+
+                <%}%>
+
+        </div>
+    </section>
+
+
+    <div class="options">
+        <div class="option-icon"><i class="fa fa-bars" aria-hidden="true"></i></div>
+    </div>
+
+    <div class="btncontainer">
+        <div class="btnform">
+
+            <div class="btn">
+                <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button><i class="fa fa-cog"
+                            aria-hidden="true"></i></button></a>
+            </div>
+            <div class="email">
+                <input type="email" name="email" value="https://github.com/<%=user%>/<%=reponame%>.git"
+                    autocomplete="off">
+            </div>
+            <div class="btn">
+                <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
+                            class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script>
+    const mainPage = document.querySelector(".explorePage");
+    const settingsContainer = document.querySelector(".btncontainer");
+    const optionsButton = document.querySelector(".option-icon");
+
+
+    optionsButton.addEventListener("click", function () {
+        mainPage.classList.toggle("active");
+        settingsContainer.classList.toggle("active");
+    });
+
+</script>
 
 </html>
