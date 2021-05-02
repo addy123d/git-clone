@@ -352,8 +352,10 @@
                         </p>
                         <a href="<%=files[i].download_url%>"><button>View <i class="fa fa-eye"
                                     aria-hidden="true"></i></button></a>
-                        <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button
-                                class="edit-btn">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                        <%if(status===true){%>
+                            <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button
+                                    class="edit-btn">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></a>
+                            <%}%>
                     </div>
                 </article>
 
@@ -369,19 +371,20 @@
 
     <div class="btncontainer">
         <div class="btnform">
-
-            <div class="btn">
-                <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button><i class="fa fa-cog"
-                            aria-hidden="true"></i></button></a>
-            </div>
-            <div class="email">
-                <input type="email" name="email" value="https://github.com/<%=user%>/<%=reponame%>.git"
-                    autocomplete="off">
-            </div>
-            <div class="btn">
-                <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
-                            class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
-            </div>
+            <%if(status===true){%>
+                <div class="btn">
+                    <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button><i class="fa fa-cog"
+                                aria-hidden="true"></i></button></a>
+                </div>
+                <%}%>
+                    <div class="email">
+                        <input type="email" name="email" value="https://github.com/<%=user%>/<%=reponame%>.git"
+                            autocomplete="off">
+                    </div>
+                    <div class="btn">
+                        <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
+                                    class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
+                    </div>
 
         </div>
     </div>
