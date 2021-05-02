@@ -801,6 +801,14 @@ app.get("/repocontent", redirectLogin, function (request, response) {
     console.log("Repo name : ", request.query.reponame);
     console.log("Repo Description :", request.query.description);
 
+    let sameUser;
+
+    if (request.query.username === request.session.Username) {
+        sameUser = true;
+    } else {
+        sameUser = false;
+    }
+
     // https://api.github.com/repos/<%=user%>/<%=repos[i].name%>/contents
 
     fetch(`https://api.github.com/repos/${request.query.username}/${request.query.reponame}/contents`)
@@ -814,7 +822,8 @@ app.get("/repocontent", redirectLogin, function (request, response) {
                 files: result,
                 reponame: request.query.reponame,
                 user: request.query.username,
-                desc: request.query.description
+                desc: request.query.description,
+                status: sameUser
             }
 
 
