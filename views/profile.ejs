@@ -16,7 +16,7 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins&family=Josefin+Sans&family=Antonio&display=swap"
         rel="stylesheet">
 
-    <title>Explore</title>
+    <title>Profile</title>
 </head>
 
 <style>
@@ -45,10 +45,6 @@
     }
 
     .grid>article {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
         border: 1px solid #ccc;
         box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
     }
@@ -58,7 +54,7 @@
     }
 
     .text {
-        padding: 0 20px 20px;
+        padding: 0px;
     }
 
     .text>a button {
@@ -77,8 +73,13 @@
         cursor: pointer;
     }
 
-    .text>button:hover {
+    .text>a button:hover {
         background: rgb(72, 77, 82);
+    }
+
+    .text>a button i {
+        padding-left: 10px;
+        font-size: 1.2rem;
     }
 
     /* LOGO */
@@ -111,50 +112,39 @@
         margin: 4%;
     }
 
-    /* Search */
-    .input,
-    .searchBtn {
+    /* DP */
+    .profile-data {
         display: flex;
         justify-content: center;
         align-items: center;
 
+        flex-direction: column;
     }
 
-    input {
-        padding: 1em;
-        outline: none;
-        border: none;
-        border-radius: 10px;
-        background: #ffffff;
-        box-shadow: inset 11px 11px 22px #e6e6e6,
-            inset -11px -11px 22px #ffffff;
-        font-family: 'Montserrat', sans-serif;
+    .profile-data img {
+        display: block;
+        height: 200px;
+        width: 200px;
+        border-radius: 100%;
     }
 
-    .searchBtn button {
-        margin-top: 2%;
-        padding: .7em 1em .7em 1em;
-        outline: none;
-        border: none;
-        cursor: pointer;
-        background: rgb(25, 48, 70);
-        color: #ffffff;
-        font-weight: 500;
-        font-family: 'Poppins',
-            sans-serif;
-        border-radius: 5px;
-        font-size: .8rem;
-        text-transform: uppercase;
-        font-weight: bold;
-        letter-spacing: 1px;
-        text-shadow: 1px 1px 2px #000000;
-        transition: .3s;
+    .profile-data .name {
+        margin: 1%;
+        font-family: 'Poppins', sans-serif;
     }
 
-    .searchBtn button:hover {
-        background: rgb(72, 77, 82);
+
+    .profile-data .bio {
+        margin: 1.1%;
+        font-family: 'Montserrat', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        letter-spacing: 2px;
     }
 
+    .profile-data .bio p i {
+        font-size: 1.4rem;
+        padding-right: 10px;
+        color: rgb(25, 48, 70);
+    }
 
     @media (max-width: 730px) {
         .grid {
@@ -173,34 +163,44 @@
     <section class="explorePage">
 
         <div class="logo">
-            <a href="/profile" style="text-decoration: none;">
-                <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
-            </a>
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
         </div>
 
-        <div class="input">
-            <input type="text" id="search-box" placeholder="Search" autocomplete="off">
+        <div class="profile-data">
+            <img src="<%=profileData.avatar_url%>" alt="dp">
+            <div class="name">
+                <h2>
+                    <%=profileData.name%>
+                </h2>
+                <p>
+                    <%=profileData.login%>
+                </p>
+            </div>
+            <div class="bio">
+                <p><i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    <%=profileData.bio%>
+                </p>
+            </div>
         </div>
-
-        <div class="searchBtn">
-            <button id="searchRepo">Search Repository</button>
-        </div>
-
-        <div class="searchBtn">
-            <button id="search">Search User</button>
-        </div>
-
         <div class="grid">
-            <%for(let i=0; i < repos.length; i++){%>
+
+            <article>
+
+                <div class="text">
+                    <a href="/explore"><button>Explore <i class="fa fa-home" aria-hidden="true"></i></button></a>
+                </div>
+            </article>
+
+            <article>
+                <div class="text">
+                    <a href="/repositories?username=<%=profileData.login%>"><button>Repositories <i
+                                class="fa fa-files-o" aria-hidden="true"></i></button></a>
+                </div>
+            </article>
+            <%if(status==false){%>
                 <article>
-                    <img src="<%=repos[i].owner.avatar_url%>" alt="Sample photo">
                     <div class="text">
-                        <h3><i class="fa fa-user" aria-hidden="true"></i>
-                            <%=repos[i].owner.login%>
-                        </h3>
-                        <p><strong>Repository</strong> : <%=repos[i].full_name%>
-                        </p>
-                        <a href="/repositories?username=<%=repos[i].owner.login%>"><button>View <i class="fa fa-eye"
+                        <a href="/createRepo"><button>Create New Repository <i class="fa fa-plus"
                                     aria-hidden="true"></i></button></a>
                     </div>
                 </article>
@@ -209,22 +209,5 @@
     </section>
 
 </body>
-<script>
-    const searchBtn = document.querySelector("#search");
-    const searchBox = document.querySelector("#search-box");
-
-    const search_Repo_Btn = document.querySelector("#searchRepo");
-
-    // Search user
-    searchBtn.addEventListener("click", function () {
-        location.href = `/profile?username=${searchBox.value}`;
-    })
-
-
-    // Search Repository
-    search_Repo_Btn.addEventListener("click", function () {
-        location.href = `/explore?repository=${searchBox.value}`;
-    })
-</script>
 
 </html>

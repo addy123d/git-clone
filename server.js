@@ -240,7 +240,7 @@ app.post("/registerDetails", function (request, response) {
                                 console.log(`Something went wrong ! ${err}`)
                             })
 
-                        response.redirect("/auth");
+                        response.redirect("https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo");
 
 
                         // let profile_url = `/profile/${user.username}`
@@ -402,17 +402,31 @@ app.get("/explore", redirectLogin, function (request, response) {
 })
 
 // Profile path
-app.get("/profile/:username", redirectLogin, function (request, response) {
+app.get("/profile", redirectLogin, function (request, response) {
 
-    const userID = request.params.username;
+    // const userID = request.session.Username;
+    let userID, status;
+    if (request.query.username === undefined) {
+        userID = request.session.Username; // For account holder !
+        status = false;
+    } else {
+        userID = request.query.username; // Any random profile !
+        status = true;
+    }
+
+
+
 
     fetch(`https://api.github.com/users/${userID}`) //📌 Fetch will act as a browser inside the code which will send requests to github server !
         .then(res => res.json()) //📌 Data will be converted into JSON format (object form)
         .then((json) => { //📌 Data will be collected here ⏪
             console.log(json);
-            response.send(`<h1>Profile</h1>
-                            <p>${json}</p>
-                            <a href="/repositories"><button>Repositories</button></a>`);
+
+            response.render("profile", {
+                profileData: json,
+                status: status
+            });
+
         }) //Data will be collected here ⏪
         .catch(err => console.log(err));
 
@@ -559,7 +573,9 @@ app.get("/codeaccess", function (request, response) {
 
             request.session.Access_token = result.access_token;
 
-            response.redirect(`/createRepo`);
+            let profile_url = `/profile`;
+
+            response.redirect(profile_url);
         })
         .catch(function (err) {
             console.log(err);
