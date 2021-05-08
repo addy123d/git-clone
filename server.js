@@ -406,7 +406,7 @@ app.get("/profile", redirectLogin, function (request, response) {
 
     // const userID = request.session.Username;
     let userID, status;
-    if (request.query.username === undefined) {
+    if (request.query.username === undefined || request.query.username === request.session.Username) {
         userID = request.session.Username; // For account holder !
         status = false;
     } else {
