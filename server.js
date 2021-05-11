@@ -328,11 +328,7 @@ app.post("/loginDetails", function (request, response) {
 
                     // response.redirect("/auth");
 
-                    response.redirect("https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo");
-
-                    // let profile_url = `/profile/${user.username}`
-                    // response.redirect(profile_url);
-
+                    response.redirect(`https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`);
                 } else {
                     response.json({
                         "passworderr": "Password Not matched !"
@@ -592,13 +588,7 @@ app.get("/createRepo", checkToken, redirectLogin, function (request, response) {
         if (request.session.Access_token === undefined) {
             response.redirect("/auth");
         } else {
-            response.send(`<h2>Create New Repository</h2>
-                             <form action="/repoDetails" method="POST">
-                                <input type="text" name="name" placeholder="Enter Repository Name" autocomplete="off">
-                                <textarea name="desc"></textarea>
-                                <button>Create Repository</button>
-                            </form>
-                            `)
+            response.render("createRepo");
         }
 
     }
@@ -681,7 +671,8 @@ app.get("/fileupload", redirectLogin, checkToken, function (request, response) {
 
 
             response.render("upload", {
-                names: reponames
+                names: reponames,
+                user: request.session.Username
             });
         })
         .catch(err => console.log(err));
