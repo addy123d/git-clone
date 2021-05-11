@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -24,5 +24,249 @@
         <button>Upload</button>
     </form>
 </body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Link awesome CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins&family=Josefin+Sans&family=Antonio&display=swap"
+        rel="stylesheet">
+
+    <title>Upload</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        background: #f0f0f0;
+    }
+
+    .explorePage {
+        background: #f0f0f0;
+        background-size: cover;
+        min-height: 90vh;
+    }
+
+
+    /* LOGO */
+    .logo {
+        margin: 2%;
+    }
+
+    .logo h2 {
+        font-size: 2.3rem;
+        color: #222;
+        font-family: 'Antonio', sans-serif;
+        user-select: none;
+    }
+
+    .logo span {
+        color: rgb(25, 48, 70);
+        font-size: 2.5rem;
+    }
+
+    /* Container */
+    .container,
+    .existingcont {
+        margin: 3%;
+    }
+
+    .container {
+        display: none;
+    }
+
+
+    .existingcont {
+        display: none;
+    }
+
+
+
+    .container .commands,
+    .existingcont .commands {
+        background: #ffff;
+        padding: 2em 3em 2em 3em;
+    }
+
+    .commands ul li {
+        list-style: none;
+        padding-bottom: 10px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 3%;
+        font-family: 'Antonio', sans-serif;
+    }
+
+    /* Choose repo */
+    .choose {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 5%;
+    }
+
+    .choose select {
+        padding: 1em;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+        background: #ffffff;
+        box-shadow: inset 11px 11px 22px #e6e6e6,
+            inset -11px -11px 22px #ffffff;
+        font-family: 'Montserrat', sans-serif;
+        cursor: pointer;
+    }
+
+    /* Main Button */
+    .mainbtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .mainbtn button {
+        padding: .7em 1em .7em 1em;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background: rgb(25, 48, 70);
+        color: #ffffff;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        font-size: .8rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #000000;
+        transition: .3s;
+    }
+
+    .mainbtn button:hover {
+        background: rgb(72, 77, 82);
+    }
+</style>
+
+<body>
+    <section class="explorePage">
+
+        <div class="logo">
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+        </div>
+
+        <div class="choose">
+            <select name="repos" id="repos">
+                <option hidden>Choose</option>
+                <%for(var i=0; i < names.length; i++){%>
+                    <option>
+                        <%=names[i]%>
+                    </option>
+                    <%}%>
+            </select>
+        </div>
+
+        <div class="container">
+            <div class="title">
+                <h2>Create a new repository on the command line</h2>
+            </div>
+            <div class="commands">
+                <ul class="cmnds1">
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> echo "# CSS" >> README.md</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git init</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git add README.md</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git commit -m "first commit"</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git branch -M main</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git remote add origin
+                        https://github.com/githubcloneextcA7/CSS.git</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git push -u origin main</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="existingcont">
+            <div class="title">
+                <h2>Push an existing repository from the command line</h2>
+            </div>
+            <div class="commands">
+                <ul class="cmnds2">
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git remote add origin
+                        https://github.com/githubcloneextcA7/CSS.git</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git branch -M main</li>
+                    <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git push -u origin main</li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="mainbtn">
+            <a href="/profile"><button>Home</button></a>
+        </div>
+    </section>
+
+</body>
+<script>
+
+    const username = `<%=user%>`;
+
+    const repository = document.querySelector("#repos");
+
+    repository.addEventListener("input", () => {
+
+        fetch(`https://api.github.com/repos/${username}/${repository.value}/contents`)
+            .then(res => res.json())
+            .then((result) => {
+                console.log(result);
+                if (result.message === "This repository is empty.") {
+                    console.log("Empty");
+                    document.querySelector(".container").style.display = "block";
+                    document.querySelector(".existingcont").style.display = "none";
+                    document.querySelector(".cmnds1").innerHTML = `  
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> echo "# ${repository.value}" >> README.md</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git init</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git add README.md</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git commit -m "first commit"</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git branch -M main</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git remote add origin
+                                    https://github.com/${username}/${repository.value}.git</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git push -u origin main</li>`;
+
+
+                } else {
+                    console.log("Full !");
+                    document.querySelector(".container").style.display = "none";
+                    document.querySelector(".existingcont").style.display = "block";
+                    document.querySelector(".cmnds2").innerHTML = `
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git remote add origin
+                                    https://github.com/${username}/${repository.value}.git</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git branch -M main</li>
+                                <li><i class="fa fa-angle-double-right" aria-hidden="true"></i> git push -u origin main</li>`;
+                }
+            })
+            .catch(err => console.log(err));
+    })
+</script>
 
 </html>

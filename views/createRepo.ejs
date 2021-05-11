@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <base href="/">
+
+    <!-- Link awesome CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Font CDN -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+
+    <title>Create</title>
+</head>
+
+<body>
+    <section class="loginPage">
+        <div class="logo">
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+        </div>
+        <div class="container">
+            <div class="title">
+                <h2>Create <i class="fa fa-plus-square-o" aria-hidden="true"></i></h2>
+            </div>
+
+            <div class="form">
+                <form action="/repoDetails" method="POST">
+                    <div class="username">
+                        <input type="text" name="name" placeholder="Enter Repository Name" autocomplete="off">
+                    </div>
+                    <div class="password">
+                        <textarea name="desc" cols="21" placeholder="Repository Details"></textarea>
+                    </div>
+                    <div class="button">
+                        <button>Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

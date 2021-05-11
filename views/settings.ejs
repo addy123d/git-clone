@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,6 +22,85 @@
     </form>
 
     <a href="/deleterepo?reponame=<%=name%>"><button>Delete repository</button></a>
+</body>
+
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <base href="/">
+
+    <!-- Link awesome CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Font CDN -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+
+    <title>Settings</title>
+</head>
+<style>
+    .container {
+        top: 45%;
+    }
+
+    input[type="radio"] {
+        cursor: pointer;
+    }
+
+    label {
+        font-family: 'Montserrat', sans-serif;
+    }
+</style>
+
+<body>
+    <section class="loginPage">
+        <div class="logo">
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+        </div>
+        <div class="container">
+            <div class="title">
+                <h2>Settings <i class="fa fa-cogs" aria-hidden="true"></i></h2>
+            </div>
+
+            <div class="form">
+                <form action="/settingDetails" method="POST">
+                    <div class="username">
+                        <input type="text" name="reponame" value="<%=name%>" readonly style="opacity: 0;">
+                    </div>
+                    <div class="username">
+                        <input type="text" name="rename" placeholder="Rename" value="<%=name%>" autocomplete="off">
+                    </div>
+                    <div class="password">
+                        <textarea name="redesc" placeholder="Repository Description" value="<%=desc%>"
+                            cols="21"></textarea>
+                    </div>
+                    <div class="username">
+                        <input type="radio" name="visible" id="visible" value="true">
+                        <label for="visible">Change Visibility</label>
+                    </div>
+                    <div class="button">
+                        <button>Change</button>
+                    </div>
+                </form>
+
+                <div class="button">
+                    <a href="/deleterepo?reponame=<%=name%>"><button>Delete</button></a>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

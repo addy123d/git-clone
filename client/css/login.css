@@ -48,7 +48,8 @@
 }
 
 /* Common CSS for all input tags ! */
-input {
+input,
+textarea {
     padding: 1em;
     outline: none;
     border: none;
@@ -57,6 +58,11 @@ input {
     box-shadow: inset 11px 11px 22px #e6e6e6,
         inset -11px -11px 22px #ffffff;
     font-family: 'Montserrat', sans-serif;
+}
+
+
+textarea {
+    resize: none;
 }
 
 input[type="password"] {
