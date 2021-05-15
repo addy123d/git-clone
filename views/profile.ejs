@@ -146,6 +146,24 @@
         color: rgb(25, 48, 70);
     }
 
+    .options {
+        position: fixed;
+        top: 5%;
+        right: 10%;
+    }
+
+    .options a .option-icon {
+        background: #ffffff;
+        padding: .5em;
+        border-radius: 10px;
+        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    .options a .option-icon i {
+        font-size: 2rem;
+    }
+
     @media (max-width: 730px) {
         .grid {
             grid-template-columns: 1fr 1fr;
@@ -208,6 +226,11 @@
         </div>
     </section>
 
+    <div class="options">
+        <a href="/logout">
+            <div class="option-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
+        </a>
+    </div>
 </body>
 
 </html>

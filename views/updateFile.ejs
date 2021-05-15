@@ -19,7 +19,7 @@
     <!-- Link CSS -->
     <link rel="stylesheet" type="text/css" href="css/login.css">
 
-    <title>Settings</title>
+    <title>Update File</title>
 </head>
 <style>
     .container {
@@ -49,29 +49,19 @@
         </div>
         <div class="container">
             <div class="title">
-                <h2>Settings <i class="fa fa-cogs" aria-hidden="true"></i></h2>
+                <h2>Update File <i class="fa fa-cogs" aria-hidden="true"></i></h2>
             </div>
 
             <div class="form">
-                <form action="/settingDetails" method="POST">
+                <form action="/updatecontent" method="POST">
                     <div class="username">
-                        <input type="text" name="reponame" value="<%=name%>" readonly style="opacity: 0;">
-                    </div>
-                    <div class="username">
-                        <input type="text" name="rename" placeholder="Rename" value="<%=name%>" autocomplete="off">
+                        <input type="text" name="reponame" value="<%=name%>" readonly autocomplete="off" />
                     </div>
                     <div class="password">
-                        <textarea name="redesc" placeholder="Repository Description" value="<%=desc%>"
-                            cols="21"></textarea>
+                        <textarea name="update" value="<%=desc%>" cols="21"><%=desc%></textarea>
                     </div>
                     <div class="username">
-                        <!-- <input type="radio" name="visible" id="visible" value="true">
-                        <label for="visible">Change Visibility</label> -->
-                        <select name="visible" id="visible">
-                            <option hidden>Choose Visibility</option>
-                            <option>Private</option>
-                            <option>Public</option>
-                        </select>
+                        <input type="text" name="commitmsg" value="update <%=filename%>" autocomplete="off" />
                     </div>
                     <div class="button">
                         <button>Change</button>
@@ -79,7 +69,7 @@
                 </form>
 
                 <div class="button">
-                    <a href="/deleterepo?reponame=<%=name%>"><button>Delete</button></a>
+                    <a href="/repositories"><button>Back</button></a>
                 </div>
             </div>
         </div>
