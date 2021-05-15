@@ -178,7 +178,7 @@ app.post("/registerDetails", function (request, response) {
 
             if (user) {
                 response.json({
-                    "emailerr": "User exists already !"
+                    result: "fail : user"
                 })
             } else {
                 // Store User object into the DB
@@ -240,9 +240,13 @@ app.post("/registerDetails", function (request, response) {
                                 console.log(`Something went wrong ! ${err}`)
                             })
 
-                        response.redirect("https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo");
+                        // response.redirect("https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo");
 
 
+                        response.json({
+                            result: "success",
+                            redirect_url: `https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`
+                        })
                         // let profile_url = `/profile/${user.username}`
                         // response.redirect(profile_url);
                     })
@@ -327,16 +331,20 @@ app.post("/loginDetails", function (request, response) {
                     updateLog(user.username, user._id, `${user.username} has logged IN`);
 
                     // response.redirect("/auth");
+                    response.json({
+                        result: "success",
+                        redirect_url: `https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`
+                    })
 
-                    response.redirect(`https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`);
+                    // response.redirect(`https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`);
                 } else {
                     response.json({
-                        "passworderr": "Password Not matched !"
-                    });
+                        result: "fail : password"
+                    })
                 }
             } else {
                 response.json({
-                    "emailerr": "User doesn't exists !"
+                    result: "fail : user"
                 })
             }
         })
@@ -480,16 +488,10 @@ app.get("/change", redirectLogin, function (request, response) {
 
 app.get("/changeDetails/:user", function (request, response) {
     // console.log(request.session);
-    response.send(`
-                <h1>Change Password</h1>
-                <form action="/changedInfo" method="POST">
-                    <input type="text" name="username" placeholder="Registered Email" value="${request.params.user}" readonly autocomplete="off">
-                    <input type="password" name="password" placeholder="Enter Password" autocomplete="off">
-                    <input type="password" name="newpassword" placeholder="Enter New Password" autocomplete="off">
-                    <input type="number" name="otp" placeholder="enter 6 digit OTP" autocomplete="off" required>
-                    <button>Change</button>
-                </form>
-                `)
+
+    response.render("changePass", {
+        email: request.params.user
+    });
 })
 
 app.post("/changedInfo", function (request, response) {
@@ -519,13 +521,20 @@ app.post("/changedInfo", function (request, response) {
                                 // Update Log !
                                 updateLog(user.username, user._id, `Password Updated`);
 
-                                response.json({
-                                    "success": "Password Updated !"
-                                })
+                                // response.json({
+                                //     "success": "Password Updated !"
+                                // })
+
+                                response.redirect("/");
                             })
                             .catch(function (error) {
                                 console.log(`Something went wrong : ${error}`);
                             });
+                    } else {
+                        // Hacker attack prevent !
+                        response.json({
+                            "passworderr": "Access denied !"
+                        })
                     }
                 } else {
                     response.json({
@@ -540,7 +549,7 @@ app.post("/changedInfo", function (request, response) {
 
     } else {
         response.json({
-            "warning": "Access denied !"
+            "otterr": "Access denied !"
         })
     }
 
@@ -752,13 +761,19 @@ app.get("/editcontent", checkToken, redirectLogin, function (request, response) 
 
             request.session.SHA_key = result.sha;
 
-            response.send(`<h2>Update File Content</h2>
-            <form action="/updatecontent" method="POST">
-            <input type="text" name="reponame" value="${repository_name}" readonly autocomplete="off"/>
-            <textarea name="update">${utf8encodedContent}</textarea>
-            <input type="text" name="commitmsg" value="update ${request.query.filename}" autocomplete="off"/>
-            <button>Submit</button>
-            </form>`)
+            // response.send(`<h2>Update File Content</h2>
+            // <form action="/updatecontent" method="POST">
+            // <input type="text" name="reponame" value="${repository_name}" readonly autocomplete="off"/>
+            // <textarea name="update">${utf8encodedContent}</textarea>
+            // <input type="text" name="commitmsg" value="update ${request.query.filename}" autocomplete="off"/>
+            // <button>Submit</button>
+            // </form>`);
+
+            response.render("updateFile", {
+                name: repository_name,
+                desc: utf8encodedContent,
+                filename: request.query.filename
+            });
         })
         .catch(function (error) {
             console.log(`Something went wrong ! ${error}`);
@@ -858,8 +873,10 @@ app.get("/repo/settings", redirectLogin, function (request, response) {
 app.post("/settingDetails", checkToken, function (request, response) {
 
     console.log(request.session.Access_token);
-    if (request.body.visible === undefined) {
+    if (request.body.visible === "Choose Visibility" || request.body.visible === "Public") {
         request.body.visible = false;
+    } else {
+        request.body.visible = true;
     }
 
     console.log("After Change : ", request.body);

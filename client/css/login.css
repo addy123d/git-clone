@@ -13,7 +13,7 @@
 
 .container {
     position: absolute;
-    top: 35%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -43,13 +43,14 @@
     margin: 2%;
 }
 
-.form form>div {
+.form>div {
     margin-bottom: 10%;
 }
 
 /* Common CSS for all input tags ! */
 input,
-textarea {
+textarea,
+select {
     padding: 1em;
     outline: none;
     border: none;
