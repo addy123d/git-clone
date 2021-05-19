@@ -196,7 +196,7 @@ app.post("/registerDetails", function (request, response) {
                     timeStamp: new Date().toLocaleString(),
                     logs: [{
                         message: `Account Created`,
-                        time: new Date().toString()
+                        timeStamp: new Date().toString()
                     }]
                 }
 
@@ -445,10 +445,22 @@ app.get("/profile", redirectLogin, function (request, response) {
         .then((json) => { //📌 Data will be collected here ⏪
             console.log(json);
 
-            response.render("profile", {
-                profileData: json,
-                status: status
-            });
+            // Check for log checking !
+
+            User.findOne({
+                    username: request.session.Username
+                })
+                .then((user) => {
+
+                    response.render("profile", {
+                        profileData: json,
+                        status: status,
+                        id: user._id
+                    });
+                })
+                .catch(function (error) {
+                    console.log(`Something went wrong : ${error}`);
+                });
 
         }) //Data will be collected here ⏪
         .catch(err => console.log(err));
@@ -499,7 +511,10 @@ app.get("/change", redirectLogin, function (request, response) {
         }
     });
 
-    response.send("<h1>Please check your email...we have send you a reset link !</h1>");
+    // response.send("<h1>Please check your email...we have send you a reset link !</h1>");
+    response.json({
+        "message": "emailsent"
+    });
 })
 
 
@@ -817,9 +832,9 @@ app.post("/updatecontent", checkToken, function (request, response) {
         .then((result) => {
             console.log(result);
             // Update Log
-            updateLog(request.session.Username, request.session.ID, `Details of repository named ${request.body.reponame} updated`);
+            updateLog(request.session.Username, request.session.ID, `File of repository named ${request.body.reponame} updated`);
 
-            response.redirect(`/explore`);
+            response.redirect(`/repositories`);
         })
         .catch(err => console.log(err));
 })
@@ -832,6 +847,7 @@ app.get("/repocontent", redirectLogin, function (request, response) {
     let sameUser;
 
     if (request.query.username === request.session.Username) {
+        console.log("Hit !");
         sameUser = true;
     } else {
         sameUser = false;
@@ -842,7 +858,7 @@ app.get("/repocontent", redirectLogin, function (request, response) {
     fetch(`https://api.github.com/repos/${request.query.username}/${request.query.reponame}/contents`)
         .then(res => res.json())
         .then(function (result) {
-            console.log(result);
+            // console.log(result);
 
             // Send response !
 
@@ -859,15 +875,15 @@ app.get("/repocontent", redirectLogin, function (request, response) {
                 })
                 .then(function (user) {
                     // console.log(user);
-                    let status = false;
+                    let starStatus = false;
                     for (let i = 0; i < user.repoName.length; i++) {
                         if (user.repoName[i] === request.query.reponame) {
-                            status = true;
+                            starStatus = true;
                             break;
                         }
                     }
 
-                    data.status = status;
+                    data.starStatus = starStatus;
 
                     console.log("Data : ", data);
 
@@ -1031,12 +1047,17 @@ app.get("/star/:reponame", redirectLogin, function (request, response) {
         .then(function () {
             console.log("Starred !");
 
+            updateLog(request.session.Username, request.session.ID, `You have Starred repository named ${reponame}`);
+
             response.json({
                 "result": "starred"
             });
         })
         .catch(function (error) {
             console.log(`Something went wrong : ${error}`);
+            response.json({
+                "result": "failed"
+            });
         });
 
 });
@@ -1062,14 +1083,39 @@ app.get("/removestar/:reponame", redirectLogin, function (request, response) {
         .then(function () {
             console.log("Starred !");
 
+            updateLog(request.session.Username, request.session.ID, `You have removed Star from repository named ${reponame}`);
+
             response.json({
-                "result": "success"
+                "result": "starred"
             });
         })
         .catch(function (error) {
             console.log(`Something went wrong : ${error}`);
+            response.json({
+                "result": "failed"
+            });
         });
 
+});
+
+// Get Logs
+
+app.get("/logs/:id", redirectLogin, function (request, response) {
+    const {
+        id
+    } = request.params;
+
+    User.findOne({
+            _id: id
+        })
+        .then(function (user) {
+            response.render("logs", {
+                logs: user.logs
+            });
+        })
+        .catch(function (error) {
+            console.log(`Something went wrong : ${error}`)
+        });
 });
 
 

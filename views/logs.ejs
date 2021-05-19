@@ -13,10 +13,10 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins&family=Josefin+Sans&family=Antonio&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins&family=Josefin+Sans&family=Antonio&display=swap"
         rel="stylesheet">
 
-    <title>Explore</title>
+    <title>Logs</title>
 </head>
 
 <style>
@@ -36,32 +36,13 @@
         min-height: 100vh;
     }
 
-    .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-gap: 20px;
-        align-items: stretch;
-        margin: 3%;
-    }
 
-    .grid>article {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        border: 1px solid #ccc;
-        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-    }
-
-    .grid>article img {
-        max-width: 100%;
-    }
 
     .text {
         padding: 0 20px 20px;
     }
 
-    .text>a button {
+    .text>button {
         background: rgb(25, 48, 70);
         color: #ffffff;
         font-weight: 500;
@@ -155,24 +136,51 @@
         background: rgb(72, 77, 82);
     }
 
-    /* Sign-Out */
-
-    .options {
-        position: fixed;
-        top: 5%;
-        right: 10%;
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 2%;
     }
 
-    .options a .option-icon {
+    .container>div {
+        margin-top: 3%;
         background: #ffffff;
-        padding: .5em;
-        border-radius: 10px;
-        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
+        padding: .7em 1em .7em 1em;
+        border-radius: 5px;
+        font-family: 'Antonio', sans-serif;
+        font-weight: lighter;
     }
 
-    .options a .option-icon i {
-        font-size: 2rem;
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 3%;
+    }
+
+    .btn a button {
+        padding: .7em 1em .7em 1em;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background: rgb(25, 48, 70);
+        color: #ffffff;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        font-size: .8rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #000000;
+        transition: all .3s;
+    }
+
+    .btn a button:hover {
+        transition: all .3s;
+        background: rgb(77, 77, 77)
     }
 
 
@@ -193,53 +201,24 @@
     <section class="explorePage">
 
         <div class="logo">
-            <a href="/profile" style="text-decoration: none;">
-                <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
-            </a>
+            <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
         </div>
 
-        <div class="input">
-            <input type="text" id="search-box" placeholder="Search" autocomplete="off">
-        </div>
-
-        <div class="searchBtn">
-            <button id="search">Search User</button>
-        </div>
-
-        <div class="grid">
-            <%for(let i=0; i < repos.length; i++){%>
-                <article>
-                    <img src="<%=repos[i].owner.avatar_url%>" alt="Sample photo">
-                    <div class="text">
-                        <h3><i class="fa fa-user" aria-hidden="true"></i>
-                            <%=repos[i].owner.login%>
-                        </h3>
-                        <p><strong>Repository</strong> : <%=repos[i].full_name%>
-                        </p>
-                        <a href="/repositories?username=<%=repos[i].owner.login%>"><button>View <i class="fa fa-eye"
-                                    aria-hidden="true"></i></button></a>
-                    </div>
-                </article>
+        <div class="container">
+            <%for(let i=0; i< logs.length; i++){%>
+                <div class="log">
+                    <h2><i class="fa fa-caret-right" aria-hidden="true"></i>
+                        <%=logs[i].message%> : <%=logs[i].timeStamp%>
+                    </h2>
+                </div>
                 <%}%>
+        </div>
+
+        <div class="btn">
+            <a href="/profile"><button>Back</button></a>
         </div>
     </section>
 
-    <div class="options">
-        <a href="/logout">
-            <div class="option-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
-        </a>
-    </div>
-
 </body>
-<script>
-    const searchBtn = document.querySelector("#search");
-    const searchBox = document.querySelector("#search-box");
-
-    // Search user
-    searchBtn.addEventListener("click", function () {
-        location.href = `/profile?username=${searchBox.value}`;
-    })
-
-</script>
 
 </html>
