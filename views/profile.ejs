@@ -36,6 +36,11 @@
         min-height: 100vh;
     }
 
+    .explorePage.active {
+        filter: blur(10px);
+        pointer-events: none;
+    }
+
     .grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -146,7 +151,7 @@
         color: rgb(25, 48, 70);
     }
 
-    .options {
+    /* .options {
         position: fixed;
         top: 5%;
         right: 10%;
@@ -162,6 +167,93 @@
 
     .options a .option-icon i {
         font-size: 2rem;
+    } */
+
+    /* Hamburger */
+    .options {
+        position: fixed;
+        top: 5%;
+        right: 10%;
+    }
+
+    .options .option-icon {
+        background: #ffffff;
+        padding: .5em;
+        border-radius: 10px;
+        box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+    }
+
+    .options .option-icon i {
+        font-size: 2rem;
+    }
+
+
+    /* Buttons */
+    /* Buttons */
+    .btncontainer {
+        position: fixed;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .3s;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .btncontainer.active {
+        opacity: 1;
+        pointer-events: visible;
+    }
+
+    .btnform {
+        margin: 7%;
+        background: #ffffff;
+        padding: 1em 2em 1em 2em;
+        border-radius: 4px;
+    }
+
+    .btnform>div {
+        margin-top: 13%;
+    }
+
+    button {
+        padding: .7em 1em .7em 1em;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        background: rgb(25, 48, 70);
+        color: #ffffff;
+        font-weight: 500;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 5px;
+        font-size: .8rem;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #000000;
+    }
+
+    button:hover {
+        transition: all .3s;
+        background: rgb(77, 77, 77)
+    }
+
+    .notification {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        padding: 1em 1.5em 1em 1.5em;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif;
+        font-size: .8rem;
+        display: none;
+        transition: all .3s;
     }
 
     @media (max-width: 730px) {
@@ -178,6 +270,7 @@
 </style>
 
 <body>
+    <div class="notification"></div>
     <section class="explorePage">
 
         <div class="logo">
@@ -226,11 +319,74 @@
         </div>
     </section>
 
-    <div class="options">
-        <a href="/logout">
-            <div class="option-icon"><i class="fa fa-sign-out" aria-hidden="true"></i></div>
-        </a>
-    </div>
+    <%if(status==false){%>
+        <div class="options">
+            <div class="option-icon"><i class="fa fa-bars" aria-hidden="true"></i></div>
+        </div>
+        <%}%>
+
+
+            <div class="btncontainer">
+                <div class="btnform">
+                    <div class="btn" style="display: flex;justify-content: center;align-items: center;">
+                        <a href="/logs/<%=id%>"><button><i class="fa fa-table" aria-hidden="true"></i> Logs</button></a>
+                    </div>
+
+                    <div class="btn">
+                        <button id="changeButton">Change</button>
+                    </div>
+
+                    <div class="btn" style="display: flex;justify-content: center;align-items: center;">
+                        <a href="/logout"><button><i class="fa fa-sign-out" aria-hidden="true"></i></button></a>
+                    </div>
+
+                </div>
+            </div>
 </body>
+<script>
+    const mainPage = document.querySelector(".explorePage");
+    const settingsContainer = document.querySelector(".btncontainer");
+    const optionsButton = document.querySelector(".option-icon");
+
+
+    optionsButton.addEventListener("click", function () {
+        mainPage.classList.toggle("active");
+        settingsContainer.classList.toggle("active");
+    });
+
+    // Change password button !
+    const changeButton = document.querySelector("#changeButton");
+
+
+    changeButton.addEventListener("click", function () {
+
+        mainPage.classList.toggle("active");
+        settingsContainer.classList.toggle("active");
+
+        fetch('/change')
+            .then(res => res.json())
+            .then(function (response) {
+                if (response.message === "emailsent") {
+                    document.querySelector(".notification").style.display = "block";
+                    document.querySelector(".notification").innerHTML = `<h2>✉ Email Sent !</h2>`;
+
+                    setTimeout(() => {
+                        document.querySelector(".notification").style.display = "none";
+                    }, 3000);
+                } else {
+                    document.querySelector(".notification").style.display = "block";
+                    document.querySelector(".notification").innerHTML = `<h2>Something went wrong ❌</h2>`;
+
+                    setTimeout(() => {
+                        document.querySelector(".notification").style.display = "none";
+                    }, 3000);
+                }
+            })
+            .catch(function (error) {
+                console.log(`Something went wrong : ${error}`);
+            });
+
+    });
+</script>
 
 </html>

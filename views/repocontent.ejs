@@ -251,7 +251,7 @@
 </style>
 
 <body>
-    <%if(status){%>
+    <%if(starStatus){%>
         <div class="star">
             <i class="fa fa-star" aria-hidden="true"></i>
         </div>
@@ -310,22 +310,28 @@
                             </div>
                             <div class="btn">
                                 <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
-                                            class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
+                                            class="fa fa-file-archive-o" aria-hidden="true"></i> Download
+                                    </button></a>
                             </div>
 
-                            <%if(!status){%>
-                                <div class="btn">
-                                    <button id="starbutton"><i class="fa fa-star-o" aria-hidden="true"></i>
-                                        Star
-                                        Me</button>
-                                </div>
+                            <%if(status){%>
                                 <%}else{%>
-                                    <div class="btn">
-                                        <a href="/removeStar/<%=reponame%>"><button id="starbutton"><i
-                                                    class="fa fa-star-o" aria-hidden="true"></i>
-                                                Remove Star</button></a>
-                                    </div>
-                                    <%}%>
+                                    <%if(!starStatus){%>
+                                        <div class="btn">
+                                            <button id="starbutton"><i class="fa fa-star-o" aria-hidden="true"></i>
+                                                Star
+                                                Me</button>
+                                        </div>
+                                        <%}else{%>
+                                            <div class="btn">
+                                                <a href="/removeStar/<%=reponame%>"><button id="starbutton"><i
+                                                            class="fa fa-star-o" aria-hidden="true"></i>
+                                                        Remove Star</button></a>
+                                            </div>
+                                            <%}%>
+                                                <%}%>
+
+
 
                 </div>
             </div>
@@ -338,7 +344,8 @@
     const starButton = document.querySelector("#starbutton");
     const removeStar = document.querySelector("#removeStar");
     const reponame = `<%=reponame%>`;
-    const status = `<%=status%>`;
+    const status = `<%=starStatus%>`;
+    console.log("Status :", status);
 
 
     optionsButton.addEventListener("click", function () {
