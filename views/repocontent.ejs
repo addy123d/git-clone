@@ -222,6 +222,21 @@
         margin: 4%;
     }
 
+    /* star */
+    .star {
+        position: absolute;
+        top: 4%;
+        left: 80%;
+        transform: translate(-50%, -50%);
+        margin-top: 3%;
+    }
+
+    .star i {
+        font-size: 2rem;
+        color: #f3542a;
+        text-shadow: 1px 1px 2px #1c1d1e;
+    }
+
     @media (max-width: 730px) {
         .grid {
             grid-template-columns: 1fr 1fr;
@@ -236,76 +251,119 @@
 </style>
 
 <body>
-    <section class="explorePage">
-
-        <div class="logo">
-            <a href="/profile" style="text-decoration: none;">
-                <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
-            </a>
+    <%if(status){%>
+        <div class="star">
+            <i class="fa fa-star" aria-hidden="true"></i>
         </div>
+        <%}%>
+            <section class="explorePage">
 
-        <div class="grid">
-
-            <%for(let i=0; i < files.length; i++){%>
-
-                <article>
-                    <div class="text">
-                        <h3><i class="fa fa-file-code-o" aria-hidden="true"></i>
-                            <%=files[i].name%>
-                        </h3>
-                        <p><strong>Size :</strong>
-                            <%=files[i].size%> bytes
-                        </p>
-                        <a href="<%=files[i].download_url%>"><button>View <i class="fa fa-eye"
-                                    aria-hidden="true"></i></button></a>
-                        <%if(status===true){%>
-                            <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button
-                                    class="edit-btn">Edit <i class="fa fa-pencil" aria-hidden="true"></i></button></a>
-                            <%}%>
-                    </div>
-                </article>
-
-                <%}%>
-
-        </div>
-    </section>
-
-
-    <div class="options">
-        <div class="option-icon"><i class="fa fa-bars" aria-hidden="true"></i></div>
-    </div>
-
-    <div class="btncontainer">
-        <div class="btnform">
-            <%if(status===true){%>
-                <div class="btn">
-                    <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button><i class="fa fa-cog"
-                                aria-hidden="true"></i></button></a>
+                <div class="logo">
+                    <a href="/profile" style="text-decoration: none;">
+                        <h2>Code <span>Share</span> <i class="fa fa-share-alt" aria-hidden="true"></i></h2>
+                    </a>
                 </div>
-                <%}%>
-                    <div class="email">
-                        <input type="email" name="email" value="https://github.com/<%=user%>/<%=reponame%>.git"
-                            autocomplete="off">
-                    </div>
-                    <div class="btn">
-                        <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
-                                    class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
-                    </div>
 
-        </div>
-    </div>
+                <div class="grid">
+
+                    <%for(let i=0; i < files.length; i++){%>
+
+                        <article>
+                            <div class="text">
+                                <h3><i class="fa fa-file-code-o" aria-hidden="true"></i>
+                                    <%=files[i].name%>
+                                </h3>
+                                <p><strong>Size :</strong>
+                                    <%=files[i].size%> bytes
+                                </p>
+                                <a href="<%=files[i].download_url%>"><button>View <i class="fa fa-eye"
+                                            aria-hidden="true"></i></button></a>
+                                <%if(status===true){%>
+                                    <a href="/editcontent?url=<%=files[i]._links.git%>&filename=<%=files[i].name%>"><button
+                                            class="edit-btn">Edit <i class="fa fa-pencil"
+                                                aria-hidden="true"></i></button></a>
+                                    <%}%>
+                            </div>
+                        </article>
+
+                        <%}%>
+
+                </div>
+            </section>
+
+
+            <div class="options">
+                <div class="option-icon"><i class="fa fa-bars" aria-hidden="true"></i></div>
+            </div>
+
+            <div class="btncontainer">
+                <div class="btnform">
+                    <%if(status===true){%>
+                        <div class="btn">
+                            <a href="/repo/settings?reponame=<%= reponame %>&desc=<%=desc%>"><button><i
+                                        class="fa fa-cog" aria-hidden="true"></i></button></a>
+                        </div>
+                        <%}%>
+                            <div class="email">
+                                <input type="email" name="email" value="https://github.com/<%=user%>/<%=reponame%>.git"
+                                    autocomplete="off">
+                            </div>
+                            <div class="btn">
+                                <a href="https://api.github.com/repos/<%=user%>/<%=reponame%>/zipball"><button><i
+                                            class="fa fa-file-archive-o" aria-hidden="true"></i> Download</button></a>
+                            </div>
+
+                            <%if(!status){%>
+                                <div class="btn">
+                                    <button id="starbutton"><i class="fa fa-star-o" aria-hidden="true"></i>
+                                        Star
+                                        Me</button>
+                                </div>
+                                <%}else{%>
+                                    <div class="btn">
+                                        <a href="/removeStar/<%=reponame%>"><button id="starbutton"><i
+                                                    class="fa fa-star-o" aria-hidden="true"></i>
+                                                Remove Star</button></a>
+                                    </div>
+                                    <%}%>
+
+                </div>
+            </div>
 
 </body>
 <script>
     const mainPage = document.querySelector(".explorePage");
     const settingsContainer = document.querySelector(".btncontainer");
     const optionsButton = document.querySelector(".option-icon");
+    const starButton = document.querySelector("#starbutton");
+    const removeStar = document.querySelector("#removeStar");
+    const reponame = `<%=reponame%>`;
+    const status = `<%=status%>`;
 
 
     optionsButton.addEventListener("click", function () {
         mainPage.classList.toggle("active");
         settingsContainer.classList.toggle("active");
     });
+
+    starButton.addEventListener("click", function () {
+        fetch(`/star/${reponame}`)
+            .then(res => res.json())
+            .then(function (response) {
+
+                if (response.result === "starred") {
+                    location.reload();
+                } else {
+                    location.href = `${location.origin}/explore`;
+                }
+            })
+            .catch(function (error) {
+                console.log(`Something went wrong : ${error}`);
+            });
+    });
+
+
+
 
 </script>
 

@@ -2,15 +2,15 @@ const mongo = require("mongoose");
 const schema = mongo.Schema;
 
 
-const repositorySchema = new schema({
+const starSchema = new schema({
     username: {
         type: String,
         required: true
     },
-    repoDetails: {
-        type: [Object],
+    repoName: {
+        type: [String],
         required: true
     }
 })
 
-module.exports = Repository = mongo.model("repository", repositorySchema);
+module.exports = Star = mongo.model("star", starSchema);

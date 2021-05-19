@@ -33,6 +33,9 @@ const User = require("./tables/User");
 // Bring Repository Table !
 const Repository = require("./tables/Repository");
 
+// Star Table !
+const Star = require("./tables/starredRepo");
+
 const host = "127.0.0.1";
 const port = 5000;
 
@@ -242,13 +245,29 @@ app.post("/registerDetails", function (request, response) {
 
                         // response.redirect("https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo");
 
+                        // For Star Table
+                        const starData = {
+                            username: request.session.Username,
+                            repoName: []
+                        }
 
-                        response.json({
-                            result: "success",
-                            redirect_url: `https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`
-                        })
-                        // let profile_url = `/profile/${user.username}`
-                        // response.redirect(profile_url);
+                        new Star(starData).save()
+                            .then(function () {
+                                // Finally after all document creation !
+                                console.log("Star table created !");
+
+                                console.log("Session :", request.session);
+                                // Response after all table creation !
+
+                                response.json({
+                                    result: "success",
+                                    redirect_url: `https://github.com/login/oauth/authorize?client_id=c234ef1c02b11d13bb0e&login=${request.session.Username}&scope=repo,delete_repo`
+                                });
+                            })
+                            .catch(function (error) {
+                                console.log(`Something went wrong : ${error}`);
+                            });
+
                     })
                     .catch(function (error) {
                         console.log(`Error occured : ${error}`);
@@ -685,19 +704,6 @@ app.get("/fileupload", redirectLogin, checkToken, function (request, response) {
             });
         })
         .catch(err => console.log(err));
-
-
-
-
-
-    // response.send(`<h2>Upload File</h2>
-    //                 <form action="/filedetails" method="POST">
-    //                 <input type="text" name="reponame" value="${request.query.repo_name}">
-    //                 <input type="text" name="filename" placeholder="Choose File name" autocomplete="off">
-    //                 <textarea name="filecontent" placeholder="Add File Comtent"></textarea>
-    //                 <button>Upload</button> 
-    //                 </form>
-    //             `)
 });
 
 app.post("/filedetails", function (request, response) {
@@ -848,10 +854,33 @@ app.get("/repocontent", redirectLogin, function (request, response) {
                 status: sameUser
             }
 
+            Star.findOne({
+                    username: request.session.Username
+                })
+                .then(function (user) {
+                    // console.log(user);
+                    let status = false;
+                    for (let i = 0; i < user.repoName.length; i++) {
+                        if (user.repoName[i] === request.query.reponame) {
+                            status = true;
+                            break;
+                        }
+                    }
 
-            response.render("repocontent", data);
+                    data.status = status;
+
+                    console.log("Data : ", data);
+
+                    response.render("repocontent", data);
+                })
+                .catch(function (error) {
+                    console.log(`Something went wrong : ${error}`);
+                });
         })
         .catch(err => console.log(err));
+
+
+
 });
 
 
@@ -979,7 +1008,69 @@ app.get("/deleterepo", redirectLogin, checkToken, function (request, response) {
 
 
 
-})
+});
+
+// Get a star !
+
+app.get("/star/:reponame", redirectLogin, function (request, response) {
+    const {
+        reponame
+    } = request.params;
+
+    console.log(reponame);
+
+    Star.updateOne({
+            username: request.session.Username
+        }, {
+            $push: {
+                repoName: reponame
+            }
+        }, {
+            $new: true
+        })
+        .then(function () {
+            console.log("Starred !");
+
+            response.json({
+                "result": "starred"
+            });
+        })
+        .catch(function (error) {
+            console.log(`Something went wrong : ${error}`);
+        });
+
+});
+
+// Remove a star !
+
+app.get("/removestar/:reponame", redirectLogin, function (request, response) {
+    const {
+        reponame
+    } = request.params;
+
+    console.log(reponame);
+
+    Star.updateOne({
+            username: request.session.Username
+        }, {
+            $pull: {
+                repoName: reponame
+            }
+        }, {
+            $new: true
+        })
+        .then(function () {
+            console.log("Starred !");
+
+            response.json({
+                "result": "success"
+            });
+        })
+        .catch(function (error) {
+            console.log(`Something went wrong : ${error}`);
+        });
+
+});
 
 
 // Switch On the server !
